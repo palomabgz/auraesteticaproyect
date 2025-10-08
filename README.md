@@ -26,13 +26,11 @@ auraesteticaproyect/
 ```
 
 ## Instalación y ejecución:
-`git clone https://github.com/palomabgz/auraesteticaproyect.git`
+```
+git clone https://github.com/palomabgz/auraesteticaproyect.git
+cd auraesteticaproyect
+npm install
+npm run dev
+```
 
-**Navega al directorio del proyecto:**
-`cd auraesteticaproyect`
-**Instala las dependencias:** 
-`npm install`
-**Inicia el servidor de desarrollo:** 
-`npm run dev`
-
-La aplicación estará disponible en `http://localhost:3000`
+La aplicación estará disponible en ``http://localhost:3000``
