@@ -23,3 +23,14 @@ auraesteticaproyect/
 ├── package-lock.json
 ├── package.json
 └── vite.config.js
+```
+
+## Instalación y ejecución:
+git clone https://github.com/palomabgz/auraesteticaproyect.git
+
+**Navega al directorio del proyecto:** cd auraesteticaproyect
+**Instala las dependencias:** npm install
+**Inicia el servidor de desarrollo:** npm run dev
+
+
+La aplicación estará disponible en http://localhost:3000.
