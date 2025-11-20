@@ -10,6 +10,9 @@
 - **React**: Biblioteca de JavaScript para construir interfaces de usuario.
 - **JavaScript**: Lenguaje de programación principal.
 - **HTML/CSS**: Estructura y estilo de la aplicación.
+- **Bootstrap y Styled-components**: Adaptación de contenido a diferentes dispositivos y personalización de estilos para un código más modular.
+- **React Icons y React Toastify**: Uso de botones y notificaciones interactivas.
+- **React Helmet**: SEO y Accesibilidad.
 
 ## Estructura del proyecto
 
