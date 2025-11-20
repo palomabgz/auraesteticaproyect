@@ -13,6 +13,8 @@ import Carrito from './pages/Carrito'
 import ListaServicios from './pages/ListaServicios'
 import ListaProductos from './pages/ListaProductos'
 import FormularioServicio from './pages/FormularioServicio'
+import Login from './pages/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
 
@@ -32,10 +34,15 @@ function App() {
       <Router>
         <Navigation comprar={comprar}/>
           <Routes>
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<Main />} />
             <Route path="/servicios" element={<ListaServicios />} />
             <Route path="/productos" element={<ListaProductos agregarAlCarrito={agregarAlCarrito} />} />
-            <Route path="/carrito" element={<Carrito comprar={comprar} eliminarDelCarrito={eliminarDelCarrito}/>}/>
+            <Route path="/carrito" element={
+              <ProtectedRoute>
+                <Carrito comprar={comprar} eliminarDelCarrito={eliminarDelCarrito}/>
+              </ProtectedRoute>
+            } />
             <Route path="/formulario" element={<FormularioServicio />} />
           </Routes>
       </Router>
