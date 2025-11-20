@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+// React Icons
+import { FaCartPlus, FaArrowDown, FaArrowUp, FaArrowLeft } from "react-icons/fa";
 
 const ListaProductos = ({ agregarAlCarrito }) => {
-const [productos, setProductos] = useState([]);
-const [mostrar, setMostrar] = useState(6);
+
+    const [productos, setProductos] = useState([]);
+    const [mostrar, setMostrar] = useState(6);
 
     useEffect(() => {
         fetch("https://fakestoreapi.com/products")
@@ -13,49 +19,104 @@ const [mostrar, setMostrar] = useState(6);
     }, []);
 
     if (productos.length === 0) {
-        return <p>Cargando productos...</p>;
+        return <p style={{ textAlign: "center", marginTop: "20px" }}>Cargando productos...</p>;
     }
 
     const productosVisibles = productos.slice(0, mostrar);
 
+    // 🔔 Notificaciones
+    const notificarCarrito = (nombre) => {
+        toast.success(`Producto añadido: ${nombre}`);
+    };
+
+    const notificarMostrarMas = () => {
+        toast.info("Mostrando más productos...");
+    };
+
+    const notificarMostrarMenos = () => {
+        toast.info("Mostrando menos productos");
+    };
+
     return (
         <div>
             <h2 style={{ textAlign: 'center', marginTop: '20px' }}>Productos</h2>
-                <Row>
+
+            <Row>
                 {productosVisibles.map((producto) => (
                     <Col key={producto.id} md={4} className="mb-4">
-                    <Card>
-                        <Card.Img variant="top" src={producto.image} alt={producto.title} style={{ height: '200px', width: '100%' }} />
-                        <Card.Body>
-                        <Card.Title style={{ height: '50px', overflow: 'hidden' }}>{producto.title}</Card.Title>
-                        <Card.Text style={{ height: '100px', overflow: 'hidden' }}>{producto.description}</Card.Text>
-                        </Card.Body>
-                        <Card.Footer>
-                        <small className="text-muted">Precio: ${producto.price}</small>
-                        </Card.Footer>
-                        <button className="btn btn-primary" style={{ marginTop: '10px' }} onClick={() => agregarAlCarrito(producto)}>Añadir al carrito</button>
-                    </Card>
+                        <Card>
+                            <Card.Img 
+                                variant="top" 
+                                src={producto.image} 
+                                alt={`Imagen del producto: ${producto.title}`}
+                                style={{ height: '200px', width: '100%', objectFit: 'contain' }} 
+                            />
+
+                            <Card.Body>
+                                <Card.Title style={{ height: '50px', overflow: 'hidden' }}>
+                                    {producto.title}
+                                </Card.Title>
+                                <Card.Text style={{ height: '100px', overflow: 'hidden' }}>
+                                    {producto.description}
+                                </Card.Text>
+                            </Card.Body>
+
+                            <Card.Footer>
+                                <small className="text-muted">Precio: ${producto.price}</small>
+                            </Card.Footer>
+
+                            <Button 
+                                className="btn btn-primary m-2"
+                                aria-label={`Agregar ${producto.title} al carrito`}
+                                onClick={() => {
+                                    agregarAlCarrito(producto);
+                                    notificarCarrito(producto.title);
+                                }}
+                            >
+                                <FaCartPlus className="me-2" /> Añadir al carrito
+                            </Button>
+                        </Card>
                     </Col>
                 ))}
-                </Row> 
+            </Row> 
 
-                <div className="text-center mt-4">
+            {/* Botones Mostrar más / menos */}
+            <div className="text-center mt-4">
                 {mostrar < productos.length && (
-                    <button
-                    className="btn btn-primary"
-                    onClick={() => setMostrar(prev => Math.min(prev + 3, productos.length))}>
-                    Mostrar más
-                    </button>
-                )}
-                {mostrar > 6 && (
-                    <button
-                    className="btn btn-secondary ms-2"
-                    onClick={() => setMostrar(prev => Math.max(prev - 3, 6))}
+                    <Button
+                        className="btn btn-primary me-2"
+                        aria-label="Mostrar más productos"
+                        onClick={() => {
+                            setMostrar(prev => Math.min(prev + 3, productos.length));
+                            notificarMostrarMas();
+                        }}
                     >
-                    Mostrar menos
-                    </button>
+                        <FaArrowDown className="me-2" /> Mostrar más
+                    </Button>
                 )}
-                </div>
+
+                {mostrar > 6 && (
+                    <Button
+                        className="btn btn-secondary"
+                        aria-label="Mostrar menos productos"
+                        onClick={() => {
+                            setMostrar(prev => Math.max(prev - 3, 6));
+                            notificarMostrarMenos();
+                        }}
+                    >
+                        <FaArrowUp className="me-2" /> Mostrar menos
+                    </Button>
+                )}
+            </div>
+
+            {/* Botón regresar */}
+            <div className="text-center mt-4">
+                <Link to="/">
+                    <Button variant="primary">
+                        <FaArrowLeft className="me-2" /> Regresar
+                    </Button>
+                </Link>
+            </div>
         </div>
     );
 };

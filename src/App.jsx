@@ -1,5 +1,7 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
 import { Container } from 'react-bootstrap';
@@ -25,7 +27,7 @@ function App() {
   }
 
   return (
-    <Container>
+    <Container fluid>
       <Header/>
       <Router>
         <Navigation comprar={comprar}/>
@@ -37,6 +39,7 @@ function App() {
             <Route path="/formulario" element={<FormularioServicio />} />
           </Routes>
       </Router>
+      <ToastContainer position="top-right" autoClose={2000} />
       <Footer/>
     </Container>
   )

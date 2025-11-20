@@ -1,5 +1,9 @@
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
+// React Icons
+import { FaCalendarCheck, FaArrowLeft } from "react-icons/fa";
 
 const ListaServicios = () => {
 
@@ -40,31 +44,72 @@ const ListaServicios = () => {
             description: 'Define y estiliza tu barba con precisión para un look limpio y moderno.',
             image: 'https://cdn.pixabay.com/photo/2018/02/22/17/08/barber-3173419_1280.jpg'
         }
-    ]
+    ];
 
     if (images.length === 0) {
-        return <p>Cargando servicios...</p>
+        return <p style={{ textAlign: "center", marginTop: "20px" }}>Cargando servicios...</p>;
     }
+
+    // 🔔 Notificación
+    const notificarReserva = (servicio) => {
+        toast.success(`Abriendo formulario para: ${servicio}`);
+    };
 
     return (
         <div>
             <h2 style={{ textAlign: 'center', marginTop: '20px' }}>Servicios</h2>
+            <p style={{ textAlign: 'center' }}>
+                ¡Elige el servicio que mejor se adapte a tus necesidades!
+            </p>
+
             <Row>
                 {images.map(image => (
                     <Col key={image.id} md={4} className="mb-4">
                         <Card>
-                            <Card.Img variant="top" src={image.image} alt={image.title} style={{ height: '200px', objectFit: 'cover' }} />
+                            <Card.Img 
+                                variant="top" 
+                                src={image.image}
+                                alt={`Imagen del servicio: ${image.title}`}
+                                style={{ height: '200px', objectFit: 'cover' }}
+                            />
+
                             <Card.Body>
-                                <Card.Title style={{ height: '50px', overflow: 'hidden' }}>{image.title}</Card.Title>
-                                <Card.Text style={{ height: '50px', overflow: 'hidden' }}>{image.description}</Card.Text>
+                                <Card.Title style={{ height: '50px', overflow: 'hidden' }}>
+                                    {image.title}
+                                </Card.Title>
+                                <Card.Text style={{ height: '50px', overflow: 'hidden' }}>
+                                    {image.description}
+                                </Card.Text>
                             </Card.Body>
+
                             <Link to="/formulario">
-                                <Button variant="btn btn-primary" size="md" className="m-2">Reservá tu turno</Button>
+                                <Button
+                                    variant="primary"
+                                    size="md"
+                                    className="m-2"
+                                    aria-label={`Reservar turno para ${image.title}`}
+                                    onClick={() => notificarReserva(image.title)}
+                                >
+                                    <FaCalendarCheck className="me-2" /> Reservá tu turno
+                                </Button>
                             </Link>
                         </Card>
                     </Col>
                 ))}
             </Row>
+
+            <div className="text-center">
+                <Link to="/">
+                    <Button 
+                        variant="primary" 
+                        size="md" 
+                        className="m-2"
+                        aria-label="Volver al inicio"
+                    >
+                        <FaArrowLeft className="me-2" /> Regresar
+                    </Button>
+                </Link>
+            </div>
         </div>
     );
 };
